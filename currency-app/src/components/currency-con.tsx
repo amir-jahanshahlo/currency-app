@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import CurrencyDropdown from "./drop-dowm";
+import { HiArrowsRightLeft } from "react-icons/hi2";
 
 const CurrencyConverter: FC = () => {
   const [currencies, setCurrencies] = useState<string[]>([]);
@@ -76,7 +77,9 @@ const CurrencyConverter: FC = () => {
           <button
             onClick={swapCurrencies}
             className="p-2 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300"
-          ></button>
+          >
+            <HiArrowsRightLeft className="text-xl text-gray-700" />
+          </button>
         </div>
         <CurrencyDropdown
           favorites={favorites}

@@ -17,8 +17,6 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
   handleFavorite,
   title = "",
 }) => {
-  const isFavorite = (curr: string): boolean => favorites.includes(curr);
-
   return (
     <div>
       <label
