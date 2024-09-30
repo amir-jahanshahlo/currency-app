@@ -8,9 +8,8 @@ const CurrencyConverter: FC = () => {
   const [convertedAmount, setConvertedAmount] = useState<string | null>(null);
   const [converting, setConverting] = useState<boolean>(false);
 
-  // Hard-coded conversion rates
-  const usdToIrrRate = 42000; // Example hard-coded rate for USD to IRR
-  const irrToUsdRate = 1 / usdToIrrRate; // Inverse rate for IRR to USD
+  const usdToIrrRate = 50000;
+  const irrToUsdRate = 1 / usdToIrrRate;
 
   const convertCurrency = (): void => {
     if (!amount) return; // If amount is not provided, exit early
@@ -38,7 +37,7 @@ const CurrencyConverter: FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto my-10 p-5 bg-white rounded-lg shadow-md">
+    <div className="max-w-xl mx-auto my-10 p-5 bg-white rounded-lg shadow-md backdrop:blur-xl">
       <h2 className="mb-5 text-2xl font-semibold text-gray-700">
         Currency Converter
       </h2>
@@ -54,7 +53,7 @@ const CurrencyConverter: FC = () => {
             id="fromCurrency"
             value={fromCurrency}
             onChange={(e) => setFromCurrency(e.target.value)}
-            className="mt-1 p-2 border border-gray-300 rounded-md"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-40"
           >
             <option value="USD">USD</option>
             <option value="IRR">IRR</option>
@@ -79,7 +78,7 @@ const CurrencyConverter: FC = () => {
             id="toCurrency"
             value={toCurrency}
             onChange={(e) => setToCurrency(e.target.value)}
-            className="mt-1 p-2 border border-gray-300 rounded-md"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-40"
           >
             <option value="IRR">IRR</option>
             <option value="USD">USD</option>
