@@ -1,57 +1,35 @@
-import React, { FC, useEffect, useState } from "react";
-import CurrencyDropdown from "./drop-dowm";
+import { FC, useState } from "react";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 
 const CurrencyConverter: FC = () => {
-  const [currencies, setCurrencies] = useState<string[]>([]);
   const [amount, setAmount] = useState<number>(1);
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
-  const [toCurrency, setToCurrency] = useState<string>("INR");
+  const [toCurrency, setToCurrency] = useState<string>("IRR");
   const [convertedAmount, setConvertedAmount] = useState<string | null>(null);
   const [converting, setConverting] = useState<boolean>(false);
-  const [favorites, setFavorites] = useState<string[]>(
-    JSON.parse(localStorage.getItem("favorites") || "[]") || ["INR", "EUR"]
-  );
 
-  const fetchCurrencies = async (): Promise<void> => {
-    try {
-      const res = await fetch("https://api.frankfurter.app/currencies");
-      const data = await res.json();
-      setCurrencies(Object.keys(data));
-    } catch (error) {
-      console.error("Error Fetching", error);
-    }
-  };
+  // Hard-coded conversion rates
+  const usdToIrrRate = 42000; // Example hard-coded rate for USD to IRR
+  const irrToUsdRate = 1 / usdToIrrRate; // Inverse rate for IRR to USD
 
-  useEffect(() => {
-    fetchCurrencies();
-  }, []);
-
-  const convertCurrency = async (): Promise<void> => {
-    if (!amount) return;
+  const convertCurrency = (): void => {
+    if (!amount) return; // If amount is not provided, exit early
     setConverting(true);
-    try {
-      const res = await fetch(
-        `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`
-      );
-      const data = await res.json();
-      setConvertedAmount(data.rates[toCurrency] + " " + toCurrency);
-    } catch (error) {
-      console.error("Error Fetching", error);
-    } finally {
-      setConverting(false);
-    }
-  };
 
-  const handleFavorite = (currency: string): void => {
-    let updatedFavorites = [...favorites];
-    if (favorites.includes(currency)) {
-      updatedFavorites = updatedFavorites.filter((fav) => fav !== currency);
+    let convertedValue: number; // Declare convertedValue as a number
+
+    if (fromCurrency === "USD" && toCurrency === "IRR") {
+      convertedValue = amount * usdToIrrRate; // Convert USD to IRR
+    } else if (fromCurrency === "IRR" && toCurrency === "USD") {
+      convertedValue = amount * irrToUsdRate; // Convert IRR to USD
     } else {
-      updatedFavorites.push(currency);
+      // If no valid conversion is found, set convertedValue to 0
+      convertedValue = 0;
     }
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+    // Format the output to two decimal places
+    setConvertedAmount(convertedValue.toFixed(2) + " " + toCurrency);
+    setConverting(false);
   };
 
   const swapCurrencies = (): void => {
@@ -65,14 +43,23 @@ const CurrencyConverter: FC = () => {
         Currency Converter
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-        <CurrencyDropdown
-          favorites={favorites}
-          currencies={currencies}
-          title="From:"
-          currency={fromCurrency}
-          setCurrency={setFromCurrency}
-          handleFavorite={handleFavorite}
-        />
+        <div>
+          <label
+            htmlFor="fromCurrency"
+            className="block text-sm font-medium text-gray-700"
+          >
+            From:
+          </label>
+          <select
+            id="fromCurrency"
+            value={fromCurrency}
+            onChange={(e) => setFromCurrency(e.target.value)}
+            className="mt-1 p-2 border border-gray-300 rounded-md"
+          >
+            <option value="USD">USD</option>
+            <option value="IRR">IRR</option>
+          </select>
+        </div>
         <div className="flex justify-center -mb-5 sm:mb-0">
           <button
             onClick={swapCurrencies}
@@ -81,14 +68,23 @@ const CurrencyConverter: FC = () => {
             <HiArrowsRightLeft className="text-xl text-gray-700" />
           </button>
         </div>
-        <CurrencyDropdown
-          favorites={favorites}
-          currencies={currencies}
-          currency={toCurrency}
-          setCurrency={setToCurrency}
-          title="To:"
-          handleFavorite={handleFavorite}
-        />
+        <div>
+          <label
+            htmlFor="toCurrency"
+            className="block text-sm font-medium text-gray-700"
+          >
+            To:
+          </label>
+          <select
+            id="toCurrency"
+            value={toCurrency}
+            onChange={(e) => setToCurrency(e.target.value)}
+            className="mt-1 p-2 border border-gray-300 rounded-md"
+          >
+            <option value="IRR">IRR</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
       </div>
       <div className="mt-4">
         <label
