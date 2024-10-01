@@ -113,7 +113,6 @@ const CurrencyConverter: FC = () => {
           value={amount}
           onChange={(e) => {
             const value = Number(e.target.value);
-            // Ensure the value is non-negative
             if (value >= 0) {
               setAmount(value);
             }
