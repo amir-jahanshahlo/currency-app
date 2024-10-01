@@ -5,7 +5,7 @@ A simple and intuitive Currency Converter application built with React. This app
 ## Live Demo
 
 Check out the live demo of the Currency Converter application:
-https://currency-mini.netlify.app
+https://currency-mini-app.netlify.app
 
 ## Features:
 
