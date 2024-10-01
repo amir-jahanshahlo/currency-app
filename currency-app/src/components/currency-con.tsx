@@ -114,7 +114,6 @@ const CurrencyConverter: FC = () => {
           value={amount}
           onChange={(e) => {
             const value = e.target.value;
-            // Allow empty input or positive numbers
             if (value === "" || Number(value) >= 0) {
               setAmount(value);
             }
