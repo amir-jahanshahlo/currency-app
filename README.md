@@ -1,10 +1,10 @@
 ## Currency Converter
 
-# A simple and intuitive Currency Converter application built with React. This application allows users to easily convert between US Dollars (USD) and Iranian Rials (IRR) using predefined exchange rates.
+A simple and intuitive Currency Converter application built with React. This application allows users to easily convert between US Dollars (USD) and Iranian Rials (IRR) using predefined exchange rates.
 
 ## Live Demo
 
-# Check out the live demo of the Currency Converter application:
+Check out the live demo of the Currency Converter application:
 https://currency-mini.netlify.app
 
 ## Features:
