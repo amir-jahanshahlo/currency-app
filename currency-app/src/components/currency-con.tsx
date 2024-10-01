@@ -4,7 +4,7 @@ import { HiArrowsRightLeft } from "react-icons/hi2";
 // CurrencyConverter component for converting between USD and IRR
 const CurrencyConverter: FC = () => {
   // State variables
-  const [amount, setAmount] = useState<number>(1);
+  const [amount, setAmount] = useState<string>("1");
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
   const [toCurrency, setToCurrency] = useState<string>("IRR");
   const [convertedAmount, setConvertedAmount] = useState<string | null>(null);
@@ -15,15 +15,16 @@ const CurrencyConverter: FC = () => {
   const irrToUsdRate = 1 / usdToIrrRate;
 
   const convertCurrency = (): void => {
-    if (!amount) return;
+    const numericAmount = Number(amount);
+    if (!numericAmount) return; // Prevent conversion if amount is 0 or NaN
     setConverting(true);
 
     let convertedValue: number;
 
     if (fromCurrency === "USD" && toCurrency === "IRR") {
-      convertedValue = amount * usdToIrrRate;
+      convertedValue = numericAmount * usdToIrrRate;
     } else if (fromCurrency === "IRR" && toCurrency === "USD") {
-      convertedValue = amount * irrToUsdRate;
+      convertedValue = numericAmount * irrToUsdRate;
     } else {
       convertedValue = 0;
     }
@@ -112,8 +113,9 @@ const CurrencyConverter: FC = () => {
         <input
           value={amount}
           onChange={(e) => {
-            const value = Number(e.target.value);
-            if (value >= 0) {
+            const value = e.target.value;
+            // Allow empty input or positive numbers
+            if (value === "" || Number(value) >= 0) {
               setAmount(value);
             }
           }}
