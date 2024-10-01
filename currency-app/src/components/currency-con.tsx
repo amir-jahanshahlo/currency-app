@@ -37,6 +37,15 @@ const CurrencyConverter: FC = () => {
     setToCurrency(fromCurrency);
   };
 
+  // Handle key down event for Enter key
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (event.key === "Enter") {
+      convertCurrency();
+    }
+  };
+
   return (
     <div className="max-w-xl mx-auto my-10 p-5 bg-white rounded-lg shadow-md">
       <h2 className="mb-5 text-2xl font-semibold text-gray-700 text-center">
@@ -99,6 +108,7 @@ const CurrencyConverter: FC = () => {
         <input
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
+          onKeyDown={handleKeyDown}
           type="number"
           className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1"
         />
