@@ -44,6 +44,10 @@ const CurrencyConverter: FC = () => {
     if (event.key === "Enter") {
       convertCurrency();
     }
+    // Prevent negative value on PgDn key
+    if (event.key === "PageDown") {
+      event.preventDefault();
+    }
   };
 
   return (
@@ -107,7 +111,13 @@ const CurrencyConverter: FC = () => {
         </label>
         <input
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            // Ensure the value is non-negative
+            if (value >= 0) {
+              setAmount(value);
+            }
+          }}
           onKeyDown={handleKeyDown}
           type="number"
           className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1"
